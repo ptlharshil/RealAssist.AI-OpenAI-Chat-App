@@ -1,0 +1,16 @@
+.navbar{
+    height: 10vh;
+    width: 67.5vw;
+    /* border-bottom: 0.5px solid gray; */
+    background-color: white;
+}
+.header{
+    float: left;
+    margin: 10px 10px 10px 100px
+}
+.desc{
+    color: gray;
+    font-size: x-small;
+    float: left;
+    margin: 40px -150px;
+}

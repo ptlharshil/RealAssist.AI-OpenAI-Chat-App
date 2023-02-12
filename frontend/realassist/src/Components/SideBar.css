@@ -5,6 +5,7 @@
     float: right;
     background-color: white;
     position: relative;
+    margin-top: -65px;
 }
 .name{
     float: left;

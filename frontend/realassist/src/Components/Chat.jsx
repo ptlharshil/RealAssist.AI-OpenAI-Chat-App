@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Chat.css"
 const Chat = () => {
-  return (
+  return (<>
     <div className='chatwindow'>
         <div className='fields'>
             <input type="text" className='input' />
@@ -9,7 +9,7 @@ const Chat = () => {
         </div>
        
     </div>
-  )
+    </>)
 }
 
 export default Chat

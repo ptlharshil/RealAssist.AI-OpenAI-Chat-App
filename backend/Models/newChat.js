@@ -14,8 +14,8 @@ const newChatSchema=new mongoose.Schema({
         default:"You"
     },
     content:{
-        messages:{type:String || Audio},
-        time:{type:Date}
+        messages:[String || Audio],
+        time:[Date]
     }
 })
 

@@ -1,5 +1,6 @@
 import  { useEffect, useState } from 'react'
 import * as React from 'react';
+import Chat from "../Components/Chat"
 import { styled } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import "./Titles.css"
-const Titles = ({chatDetails, setChatDetails}) => {
+const Titles = ({chatDetails, setChatDetails,setShowChat,showChat,addChat,addTime, setAddTime, setAddChat}) => {
     const [show, setShow]=useState(false)
     const [newTitle,setNewTitle]=useState("")
     const [i,setI]=useState('')
@@ -73,7 +74,6 @@ const Titles = ({chatDetails, setChatDetails}) => {
                     cd.title=newTitle
                 }
               })
-              console.log(chatDetails)
               setChatDetails([...chatDetails])
               setShow(false)    
 
@@ -83,10 +83,12 @@ const Titles = ({chatDetails, setChatDetails}) => {
         }
     const deleteChat=(index)=>{
           setChatDetails(chatDetails.filter((chat,i)=>index!==i))
+          
     }
 
-    const handleChatRoom=()=>{
-
+    
+    const handleChatRoom=(index)=>{
+      
     }
 
   return (<>
@@ -110,7 +112,7 @@ const Titles = ({chatDetails, setChatDetails}) => {
           <Button onClick={()=>handleYes(newTitle,index)}>Yes</Button>
           <Button onClick={handleNo}>No</Button>
         </ButtonGroup></>
-        :<> <h3 key={index} className="title" onClick={handleChatRoom}>{chats.title}</h3>
+        :<> <button key={index} className="title" onClick={()=>handleChatRoom(index)} >{chats.title}</button>
         <FormControl  style={{margin:"5px 5px 5px 5px"}}>
         <Select
           labelId="demo-customized-select-label"
@@ -122,10 +124,13 @@ const Titles = ({chatDetails, setChatDetails}) => {
           <MenuItem value={10} onClick={()=>handleChange(index)}>Edit</MenuItem>
           <MenuItem value={20} onClick={()=>deleteChat(index)}>Delete</MenuItem>
         </Select>
-      </FormControl></>}         
+      </FormControl>
+      </>}         
     </div>)}
     
-
+    {/* {showChat && <Chat chatDetails={chatDetails} setChatDetails={setChatDetails} addChat={addChat} 
+          setAddChat={setAddChat} addTime={addTime} setAddTime={setAddTime} showChat={showChat} 
+         setShowChat={setShowChat} i={i} setI={setI}/>} */}
 
    
     </>

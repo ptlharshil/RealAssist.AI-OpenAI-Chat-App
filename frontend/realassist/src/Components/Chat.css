@@ -1,8 +1,12 @@
 .chatwindow{
     width: 67.5vw;
     height: 90vh;
-    background-color: lightgray;
-    position: relative;
+    top: 5px;
+    background-color: red;
+    position: absolute;
+    overflow-y: scroll;
+    left:-835px
+    
 }
 .input{
     
@@ -25,3 +29,29 @@
     color: white;
     border-color: blue;
 }
+.message{
+    background-color: blue;
+    float: left;
+    width: auto;
+    height: 50px;
+    margin: 10px 15px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.msg{
+    color: white;
+    margin-top: 15px;
+}
+.time{
+    color: white;
+    
+}
+/* .msgwrapper{
+    background-color: red;
+    float: left;
+    width: auto;
+    height: 54px;
+    margin: 10px 15px;
+    border-radius: 5px;
+    
+} */

@@ -1,7 +1,7 @@
 .chatwindow{
     width: 67.5vw;
     height: 90vh;
-    top: 5px;
+    bottom: -5px;
     background-color: red;
     position: absolute;
     overflow-y: scroll;

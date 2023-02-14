@@ -13,10 +13,11 @@ const newChatSchema=new mongoose.Schema({
         min:2,
         default:"You"
     },
-    content:{
-        messages:[String || Audio],
-        time:[Date]
-    }
+    
+    messages:[String || Audio],
+    
+    time:[String]
+    
 })
 
 const newChat=mongoose.model("newChat", newChatSchema);

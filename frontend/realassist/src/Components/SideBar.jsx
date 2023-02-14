@@ -9,7 +9,9 @@ import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import axios from 'axios'
 import "./SideBar.css"
+import { useEffect } from 'react';
 const SideBar = () => {
   const [showChat, setShowChat] = useState(false)
   const [chatDetails, setChatDetails] = useState([])
@@ -19,6 +21,18 @@ const SideBar = () => {
   const [show, setShow] = useState(false)
   const [newTitle, setNewTitle] = useState("New Chat")
 
+  useEffect(() => {
+    getAllChats()
+  }, [])
+
+  const getAllChats = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000")
+      setChatDetails(res.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
       marginTop: theme.spacing(3),
@@ -65,13 +79,17 @@ const SideBar = () => {
     setShow(false)
     setShowChat(true)
   }
-  const handleYes = (newTitle, index) => {
-    chatDetails.map((cd, i) => {
-      if (index === i) {
-        cd.title = newTitle
+  const handleYes = async (newTitle, index) => {
+
+    const res = await axios.put(`http://localhost:5000/editTitle/${index}`, { title: newTitle })
+
+    const updatedChat = res.data
+    setChatDetails(prevChatDetails => prevChatDetails.map(chat => {
+      if (chat._id === updatedChat._id) {
+        return updatedChat
       }
-    })
-    setChatDetails([...chatDetails])
+      return chat
+    }))
     setShow(false)
     setShowChat(true)
 
@@ -79,13 +97,15 @@ const SideBar = () => {
   const handleText = (e) => {
     setNewTitle(e.target.value)
   }
-  const deleteChat = (index) => {
-    setChatDetails(chatDetails.filter((chat, i) => index !== i))
+  const deleteChat = async (index) => {
+
+    const res = await axios.delete(`http://localhost:5000/deleteChat/${index}`)
+    setChatDetails(chatDetails.filter((chat, i) => index !== chat._id))
 
   }
 
 
-  const newChat = () => {
+  const newChat = async () => {
     const time = new Date()
     addTime.push(time.getHours() + ":" + time.getMinutes())
     const chat = {
@@ -96,8 +116,15 @@ const SideBar = () => {
 
     }
     { chatDetails.length === 0 && setNum(0) }
-    setChatDetails([...chatDetails, chat])
-    setShowChat(true)
+    try {
+      const res = await axios.post("http://localhost:5000/api/newChat", chat)
+      console.log(res, res.data)
+      setChatDetails([...chatDetails, res.data])
+      setShowChat(true)
+    } catch (err) {
+      console.log(err.response)
+    }
+
   }
 
 
@@ -133,7 +160,7 @@ const SideBar = () => {
                       variant="contained"
                       aria-label="Disabled elevation buttons"
                     >
-                      <Button onClick={() => handleYes(newTitle, index)}>Yes</Button>
+                      <Button onClick={() => handleYes(newTitle, chats._id)}>Yes</Button>
                       <Button onClick={handleNo}>No</Button>
                     </ButtonGroup>
 
@@ -156,11 +183,11 @@ const SideBar = () => {
                           labelId="demo-customized-select-label"
                           id="demo-customized-select"
                           input={<BootstrapInput />}
-                          key={index}
+                          key={chat._id}
                         >
 
                           <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
-                          <MenuItem value={20} onClick={() => deleteChat(index)}>Delete</MenuItem>
+                          <MenuItem value={20} onClick={() => deleteChat(chat._id)}>Delete</MenuItem>
                         </Select>
                       </FormControl></>
                     ))}

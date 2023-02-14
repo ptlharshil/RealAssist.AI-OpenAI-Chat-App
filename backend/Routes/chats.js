@@ -5,7 +5,7 @@ const token=process.env.API_TOKEN
 const configuration=new Configuration({apiKey:token})
 const openai=new OpenAIApi(configuration)
 
-router.post("/newChat", async (req,res)=>{
+router.post("/chats", async (req,res)=>{
     const chat=new newChat(req.body)
     try {
         const savedChat = await chat.save();

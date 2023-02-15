@@ -20,7 +20,7 @@ const SideBar = () => {
   const [num, setNum] = useState('')
   const [show, setShow] = useState(false)
   const [newTitle, setNewTitle] = useState("New Chat")
-
+  const [id, setId] = useState()
   useEffect(() => {
     getAllChats()
   }, [])
@@ -107,12 +107,11 @@ const SideBar = () => {
 
   const newChat = async () => {
     const time = new Date()
-    addTime.push(time.getHours() + ":" + time.getMinutes())
     const chat = {
       title: "New Chat",
       user: "AI",
       messages: addChat,
-      time: addTime
+      time: time.getHours() + ":" + time.getMinutes()
 
     }
     { chatDetails.length === 0 && setNum(0) }
@@ -140,8 +139,8 @@ const SideBar = () => {
         <>
           {chatDetails.map((chats, index) =>
             <>
-              {showChat && index === num && <Chat chatDetails={chatDetails} newTitle={newTitle}
-                setChatDetails={setChatDetails} num={num} addChat={addChat} addTime={addTime} chatIndex={index}
+              {showChat && index === num && <Chat chatDetails={chatDetails} newTitle={newTitle} id={id}
+                setChatDetails={setChatDetails} addChat={addChat} addTime={addTime} chatIndex={index}
               />}
               <div className='chatnames'>
 
@@ -174,6 +173,7 @@ const SideBar = () => {
                         <h3 className='title' onClick={() => {
                           setShowChat(true);
                           setNum(index);
+                          setId(chat._id)
                         }}>
                           {chat.title}
                         </h3>

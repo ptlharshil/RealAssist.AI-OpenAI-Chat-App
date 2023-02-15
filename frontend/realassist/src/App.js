@@ -7,8 +7,15 @@ function App() {
     <div className="App">
       <Navbar/>
       <SideBar/>
-      
-      {/* <Chat/> */}
+      <div className='intro'>
+        <h1>Hi, I am Real Assist AI</h1>
+        <p>How can I help you? Click on new chat to start
+          <br/>
+          or
+          <br/>
+          Click on any of your existing chat to continue
+        </p>
+      </div>
     </div>
   );
 }

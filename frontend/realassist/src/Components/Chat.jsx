@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import "./Chat.css"
-const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, newTitle, num, setI, setAddChat, addTime, setAddTime, showChat, setShowChat }) => {
+const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, id, newTitle, num, setI, setAddChat, addTime, setAddTime, showChat, setShowChat }) => {
     const [chatMsg, setChatMsg] = useState("")
     const [chatState, setChatState] = useState(chatDetails[chatIndex]);
     const { messages, time } = chatState
@@ -8,7 +9,7 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, newTitle, num, 
     const handleChange = (e) => {
         setChatMsg(e.target.value)
     }
-    const chatMsgs = (e) => {
+    const chatMsgs = async (e) => {
         if (e.key === "Enter") {
 
             const t2 = new Date().getHours() + ":" + new Date().getMinutes();
@@ -19,9 +20,27 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, newTitle, num, 
 
             const newChatDetails = [...chatDetails];
             newChatDetails[chatIndex] = newChatState;
-            setChatDetails(newChatDetails);
 
+            const res = await axios.post(`http://localhost:5000/newMsg/${id}`, { messages: chatMsg, time: t2 })
+            setChatDetails(prevChatDetails => prevChatDetails.map(chat => {
+                if (chat._id === res.data._id) {
+                    return res.data
+                }
+                return chat
+            }));
             setChatMsg("");
+            var t3 = '';
+
+            t3 = new Date().getHours() + ":" + new Date().getMinutes()
+
+            const res2 = await axios.post(`http://localhost:5000/chat/${id}`, { messages: chatMsg, time: t3 })
+            setChatDetails(prevChatDetails => prevChatDetails.map(chat => {
+                if (chat._id === res2.data._id) {
+                    return res2.data
+                }
+                return chat
+            }));
+
         }
 
     }
@@ -33,6 +52,14 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, newTitle, num, 
             {chatDetails[chatIndex].messages.map((chat, i) => {
                 return (<div className='message'>
                     <h4 className='msg' key={i}>{chat}</h4>
+
+                </div>)
+
+            })}
+
+            {chatDetails[chatIndex].time.map((chat, i) => {
+                return (<div className='timeWrapper'>
+                    <h6 className='time' key={i}>{chat}</h6>
 
                 </div>)
 

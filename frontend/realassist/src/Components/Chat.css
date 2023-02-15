@@ -37,11 +37,13 @@
     margin: 10px 15px;
     border-radius: 5px;
     padding: 5px;
+    /* position: relative; */
 }
 .msg{
     color: white;
     margin-top: 15px;
 }
+
 .time{
     color: white;
     

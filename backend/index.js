@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 require("dotenv").config()
 const mongoose = require("mongoose")
-const chat = require("./Routes/chats")
 const app = express()
 const { Configuration, OpenAIApi } = require("openai")
 const router = require("express").Router();
@@ -34,8 +33,7 @@ app.post("/api/newChat", async (req, res) => {
 })
 app.post("/newMsg/:id", async (req, res) => {
   try {
-    console.log(req.body)
-    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: req.body.messages, time: req.body.time } }, { new: true });
+    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: req.body.messages, time: req.body.time, user: req.body.user } }, { new: true });
     if (!updatedChat) {
       return res.status(404).json({ message: "Chat not found" });
     }
@@ -57,7 +55,7 @@ app.post("/chat/:id", async (req, res) => {
       presence_penalty: 0.0,
       stop: ["You:"],
     })
-    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: data.data.choices[0].text, time: req.body.time } }, { new: true });
+    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: data.data.choices[0].text, time: req.body.time, user:req.body.user } }, { new: true });
 
     res.status(200).send(updatedChat);
 

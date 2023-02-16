@@ -2,6 +2,7 @@
   text-align: center;
   background-color: lightgray;
   height: 100vh;
+  overflow: hidden;
 }
 .intro{
   margin-top: 200px;

@@ -1,12 +1,11 @@
-.chatwindow{
+/* .chatwindow{
     width: 67.5vw;
     height: 90vh;
     bottom: -5px;
-    background-color: red;
+    background-color: lightgray;
     position: absolute;
     overflow-y: scroll;
-    left:-835px
-    
+    left:-835px    
 }
 .input{
     
@@ -18,10 +17,16 @@
     border-radius: 10px;
 
 }
-.fields{
-    position: absolute;
+
+
+  
+  .fields {
+    position: fixed;
     bottom: 0;
-}
+    
+    z-index: 1; 
+  }
+  
 .audio{
     border-radius: 50%;
     margin-left: 20px;
@@ -29,6 +34,7 @@
     color: white;
     border-color: blue;
 }
+
 .message{
     background-color: blue;
     float: left;
@@ -37,23 +43,146 @@
     margin: 10px 15px;
     border-radius: 5px;
     padding: 5px;
-    /* position: relative; */
-}
-.msg{
-    color: white;
-    margin-top: 15px;
+    
 }
 
-.time{
-    color: white;
-    
-}
-/* .msgwrapper{
-    background-color: red;
-    float: left;
+.timeWrapper{
     width: auto;
-    height: 54px;
-    margin: 10px 15px;
-    border-radius: 5px;
+
+}
+
+
+.chatMsg {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     
-} */
+  }
+  
+  .messageWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+  
+  .message {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #e5e5ea;
+    max-width: 70%;
+    clear: both;
+  }
+  
+  .current-user {
+    float: right !important;
+    background-color: #007aff;
+    color: #fff;
+  }
+  
+  .other-user {
+    float: left !important;
+    background-color: #e5e5ea;
+    color: #000;
+  }
+  
+  .time {
+    font-size: 12px;
+    color: #888;
+    clear: both;
+  }
+   */
+
+   .chatwindow {
+    position: absolute;
+    width: 67.5vw;
+    height: 90vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    left:-835px;
+    background-color: lightgray;
+
+  }
+  
+  .chatMsg {
+    padding: 20px;
+  }
+  
+  .messageWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .message {
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    max-width: 70%;
+  }
+  
+  .current-user {
+    background-color: blue;color: white;
+    align-self: flex-end;
+  }
+  
+  .other-user {
+    background-color: white;color: black;
+    align-self: flex-start;
+  }
+  
+  .time {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+    align-self: flex-end;
+  }
+  .time2 {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+    align-self: flex-start;
+  }
+  .container {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 60vh;
+  }
+  
+  .fields {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    /* padding: 10px; */
+    /* background-color: #f2f2f2; */
+    border: 1px solid #ddd;
+    width: 60vw;
+    
+  }
+  
+  .input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 30px;
+  }
+  
+  .audio {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background-color: blue;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  

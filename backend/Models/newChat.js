@@ -8,11 +8,7 @@ const newChatSchema=new mongoose.Schema({
         min:2,
         max:32
     },
-    user:{
-        type:String,
-        min:2,
-        default:"You"
-    },
+    user:[String],
     
     messages:[String || Audio],
     

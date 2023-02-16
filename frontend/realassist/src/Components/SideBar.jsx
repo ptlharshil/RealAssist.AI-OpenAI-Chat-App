@@ -117,9 +117,7 @@ const SideBar = () => {
     { chatDetails.length === 0 && setNum(0) }
     try {
       const res = await axios.post("http://localhost:5000/api/newChat", chat)
-      console.log(res, res.data)
       setChatDetails([...chatDetails, res.data])
-      setShowChat(true)
     } catch (err) {
       console.log(err.response)
     }
@@ -169,7 +167,7 @@ const SideBar = () => {
                   :
                   <>
                     {chatDetails.map((chat, index) => (<>
-                      <div key={index}>
+                      {/* <div key={index}> */}
                         <h3 className='title' onClick={() => {
                           setShowChat(true);
                           setNum(index);
@@ -177,7 +175,7 @@ const SideBar = () => {
                         }}>
                           {chat.title}
                         </h3>
-                      </div>
+                      {/* </div> */}
                       <FormControl style={{ margin: "5px 5px 5px 5px" }}>
                         <Select
                           labelId="demo-customized-select-label"
@@ -189,7 +187,8 @@ const SideBar = () => {
                           <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
                           <MenuItem value={20} onClick={() => deleteChat(chat._id)}>Delete</MenuItem>
                         </Select>
-                      </FormControl></>
+                      </FormControl>
+                      </>
                     ))}
 
                   </>}

@@ -15,13 +15,14 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, id, newTitle, n
             const t2 = new Date().getHours() + ":" + new Date().getMinutes();
             const newMessages = [...messages, chatMsg];
             const newTime = [...time, t2];
-            const newChatState = { ...chatState, messages: newMessages, time: newTime };
+            const user="You"
+            const newChatState = { ...chatState,user: user, messages: newMessages, time: newTime };
             setChatState(newChatState);
 
             const newChatDetails = [...chatDetails];
             newChatDetails[chatIndex] = newChatState;
 
-            const res = await axios.post(`http://localhost:5000/newMsg/${id}`, { messages: chatMsg, time: t2 })
+            const res = await axios.post(`http://localhost:5000/newMsg/${id}`, {user:user, messages: chatMsg, time: t2 })
             setChatDetails(prevChatDetails => prevChatDetails.map(chat => {
                 if (chat._id === res.data._id) {
                     return res.data
@@ -33,7 +34,7 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, id, newTitle, n
 
             t3 = new Date().getHours() + ":" + new Date().getMinutes()
 
-            const res2 = await axios.post(`http://localhost:5000/chat/${id}`, { messages: chatMsg, time: t3 })
+            const res2 = await axios.post(`http://localhost:5000/chat/${id}`, {user:"AI", messages: chatMsg, time: t3 })
             setChatDetails(prevChatDetails => prevChatDetails.map(chat => {
                 if (chat._id === res2.data._id) {
                     return res2.data
@@ -48,32 +49,58 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, id, newTitle, n
 
     return (
         <div className='chatwindow'>
-
-            {chatDetails[chatIndex].messages.map((chat, i) => {
-                return (<div className='message'>
-                    <h4 className='msg' key={i}>{chat}</h4>
-
-                </div>)
-
-            })}
-
-            {chatDetails[chatIndex].time.map((chat, i) => {
-                return (<div className='timeWrapper'>
-                    <h6 className='time' key={i}>{chat}</h6>
-
-                </div>)
-
-            })}
-
-            {chatDetails.length > 0 &&
-                <div >
-                    <div className='fields'>
-                        <input type="text" value={chatMsg} className='input' onChange={handleChange} onKeyDown={(e) => chatMsgs(e)} />
-                        <button className='audio' >V</button>
-                    </div>
-                </div>
-            }
+  <div class="chatMsg">
+    {chatDetails[chatIndex].messages.map((chat, i) => {
+      const isCurrentUser = chatDetails[chatIndex].user[i] === "You";
+      const messageClass = isCurrentUser ? 'message current-user' : 'message other-user';
+      const time=isCurrentUser?'time':'time2'
+      return (
+        <div class="messageWrapper">
+          <div class={messageClass}>{chat}</div>
+          <div class={time}>{chatDetails[chatIndex].time[i]}</div>
+          <div style={{ clear: 'both' }}></div>
         </div>
+      );
+    })}
+  </div>
+
+  {chatDetails.length > 0 &&
+    <div className='container'>
+      <div className='fields'>
+        <input type="text" value={chatMsg} className='input' onChange={handleChange} onKeyDown={(e) => chatMsgs(e)} />
+        <button className='audio' >V</button>
+      </div>
+    </div>
+  }
+</div>
+
+        // <div className='chatwindow'>
+           
+
+        //     <div class="chatMsg">
+        //     {chatDetails[chatIndex].messages.map((chat, i) => {
+        //         const isCurrentUser = chatDetails[chatIndex].user[i] === "You";
+        //         const messageClass = isCurrentUser ? 'message current-user' : 'message other-user';
+        //         return (
+        //         <div class="messageWrapper">
+        //             <div class={messageClass}>{chat}</div>
+        //             <div class="time">{chatDetails[chatIndex].time[i]}</div>
+        //             <div style={{ clear: 'both' }}></div>
+        //         </div>
+        //         );
+        //     })}
+        //     </div>
+
+
+        //     {chatDetails.length > 0 &&
+        //         <div className='container'>
+        //             <div className='fields'>
+        //                 <input type="text" value={chatMsg} className='input' onChange={handleChange} onKeyDown={(e) => chatMsgs(e)} />
+        //                 <button className='audio' >V</button>
+        //             </div>
+        //         </div>
+        //     }
+        // </div>
     )
 
 }

@@ -49,15 +49,15 @@ const Chat = ({ chatDetails, setChatDetails, chatIndex, addChat, id, newTitle, n
 
     return (
         <div className='chatwindow'>
-  <div class="chatMsg">
+  <div className="chatMsg">
     {chatDetails[chatIndex].messages.map((chat, i) => {
       const isCurrentUser = chatDetails[chatIndex].user[i] === "You";
       const messageClass = isCurrentUser ? 'message current-user' : 'message other-user';
       const time=isCurrentUser?'time':'time2'
       return (
-        <div class="messageWrapper">
-          <div class={messageClass}>{chat}</div>
-          <div class={time}>{chatDetails[chatIndex].time[i]}</div>
+        <div className="messageWrapper">
+          <div className={messageClass}>{chat}</div>
+          <div className={time}>{chatDetails[chatIndex].time[i]}</div>
           <div style={{ clear: 'both' }}></div>
         </div>
       );

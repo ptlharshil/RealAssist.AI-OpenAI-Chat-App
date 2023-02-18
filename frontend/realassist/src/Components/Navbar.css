@@ -1,12 +1,13 @@
 .navbar{
-    height: 10vh;
-    width: 67.5vw;
+    height: 10%;
+    width: 100%;
     /* border-bottom: 0.5px solid gray; */
     background-color: white;
+   
 }
 .header{
     float: left;
-    margin: 10px 10px 10px 100px
+    margin: 10px 10px 10px 50px
 }
 .desc{
     color: gray;

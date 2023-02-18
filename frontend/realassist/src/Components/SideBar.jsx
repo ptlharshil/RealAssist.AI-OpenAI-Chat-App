@@ -17,7 +17,7 @@ const SideBar = () => {
   const [chatDetails, setChatDetails] = useState([])
   const [addChat, setAddChat] = useState(["Hey, this is Real Assist AI, how can I help you?"])
   const [addTime, setAddTime] = useState([])
-  const [num, setNum] = useState('')
+  const [num, setNum] = useState()
   const [show, setShow] = useState(false)
   const [newTitle, setNewTitle] = useState("New Chat")
   const [id, setId] = useState()
@@ -114,7 +114,7 @@ const SideBar = () => {
       time: time.getHours() + ":" + time.getMinutes()
 
     }
-    { chatDetails.length === 0 && setNum(0) }
+    
     try {
       const res = await axios.post("http://localhost:5000/api/newChat", chat)
       setChatDetails([...chatDetails, res.data])
@@ -126,24 +126,25 @@ const SideBar = () => {
 
 
   return (
-    <>
+    
       <div className='sidebar'>
-        <div className='heading'>
+        {/* <div className='heading'> */}
           <h2 className='name'>Recent Chats</h2>
           <button className='create' onClick={newChat}>New Chat</button>
-        </div>
+        {/* </div> */}
 
 
-        <>
+        
           {chatDetails.map((chats, index) =>
-            <>
-              {showChat && index === num && <Chat chatDetails={chatDetails} newTitle={newTitle} id={id}
-                setChatDetails={setChatDetails} addChat={addChat} addTime={addTime} chatIndex={index}
+            <div>
+              {showChat && index === num && <Chat chatDetails={chatDetails} id={id}
+                setChatDetails={setChatDetails} chatIndex={index}
               />}
-              <div className='chatnames'>
 
+              <div className="chatnames">
                 {show && num === index ?
-                  <>
+                  <div>
+
                     <TextField
                       required
                       id="filled-required"
@@ -151,7 +152,8 @@ const SideBar = () => {
                       defaultValue={chats.title}
                       variant="filled"
                       onChange={handleText}
-                      style={{ marginRight: "55px", marginTop: "-42px" }} />
+                      style={{ marginRight: "35px", marginTop: "-5px" }}
+                    />
                     <ButtonGroup
                       disableElevation
                       variant="contained"
@@ -163,45 +165,52 @@ const SideBar = () => {
 
 
 
-                  </>
+                  </div>
                   :
-                  <>
-                    {chatDetails.map((chat, index) => (<>
-                      {/* <div key={index}> */}
-                        <h3 className='title' onClick={() => {
-                          setShowChat(true);
-                          setNum(index);
-                          setId(chat._id)
-                        }}>
-                          {chat.title}
-                        </h3>
-                      {/* </div> */}
-                      <FormControl style={{ margin: "5px 5px 5px 5px" }}>
+                  <ul>
+
+                    <li className='title'>
+                      <h3 onClick={() => {
+                        setNum(index);
+                        setId(chats._id)
+                        setShowChat(true);
+                      }}>
+                        {chats.title}
+                      </h3>
+
+                    </li>
+                    <div className='box'>
+                      <FormControl >
                         <Select
                           labelId="demo-customized-select-label"
                           id="demo-customized-select"
                           input={<BootstrapInput />}
-                          key={chat._id}
+                          key={chats._id}
                         >
 
                           <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
-                          <MenuItem value={20} onClick={() => deleteChat(chat._id)}>Delete</MenuItem>
+                          <MenuItem value={20} onClick={() => deleteChat(chats._id)}>Delete</MenuItem>
                         </Select>
                       </FormControl>
-                      </>
-                    ))}
+                    </div>
 
-                  </>}
 
+
+
+
+                  </ul>}
 
               </div>
-            </>)}
-        </>
 
-      </div>
+            </div>)}
 
 
-    </>
+
+        </div>
+
+
+
+    
   )
 }
 

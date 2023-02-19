@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios'
 import "./SideBar.css"
 import { useEffect } from 'react';
+
 const SideBar = () => {
   const [showChat, setShowChat] = useState(false)
   const [chatDetails, setChatDetails] = useState([])
@@ -21,6 +22,7 @@ const SideBar = () => {
   const [show, setShow] = useState(false)
   const [newTitle, setNewTitle] = useState("New Chat")
   const [id, setId] = useState()
+
   useEffect(() => {
     getAllChats()
   }, [])
@@ -114,7 +116,7 @@ const SideBar = () => {
       time: time.getHours() + ":" + time.getMinutes()
 
     }
-    
+
     try {
       const res = await axios.post("http://localhost:5000/api/newChat", chat)
       setChatDetails([...chatDetails, res.data])
@@ -126,91 +128,64 @@ const SideBar = () => {
 
 
   return (
-    
-      <div className='sidebar'>
-        {/* <div className='heading'> */}
-          <h2 className='name'>Recent Chats</h2>
-          <button className='create' onClick={newChat}>New Chat</button>
-        {/* </div> */}
 
-
-        
-          {chatDetails.map((chats, index) =>
-            <div>
-              {showChat && index === num && <Chat chatDetails={chatDetails} id={id}
-                setChatDetails={setChatDetails} chatIndex={index}
-              />}
-
-              <div className="chatnames">
-                {show && num === index ?
-                  <div>
-
-                    <TextField
-                      required
-                      id="filled-required"
-                      label="Required"
-                      defaultValue={chats.title}
-                      variant="filled"
-                      onChange={handleText}
-                      style={{ marginRight: "35px", marginTop: "-5px" }}
-                    />
-                    <ButtonGroup
-                      disableElevation
-                      variant="contained"
-                      aria-label="Disabled elevation buttons"
-                    >
-                      <Button onClick={() => handleYes(newTitle, chats._id)}>Yes</Button>
-                      <Button onClick={handleNo}>No</Button>
-                    </ButtonGroup>
-
-
-
-                  </div>
-                  :
-                  <ul>
-
-                    <li className='title'>
-                      <h3 onClick={() => {
-                        setNum(index);
-                        setId(chats._id)
-                        setShowChat(true);
-                      }}>
-                        {chats.title}
-                      </h3>
-
-                    </li>
-                    <div className='box'>
-                      <FormControl >
-                        <Select
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          input={<BootstrapInput />}
-                          key={chats._id}
-                        >
-
-                          <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
-                          <MenuItem value={20} onClick={() => deleteChat(chats._id)}>Delete</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-
-
-
-
-
-                  </ul>}
-
+    <div className='sidebar'>
+      <h2 className='name'>Recent Chats</h2>
+      <button className='create' onClick={newChat}>New Chat</button>
+      {chatDetails.map((chats, index) =>
+        <div>
+          {showChat && index === num && <Chat chatDetails={chatDetails} id={id}
+            setChatDetails={setChatDetails} chatIndex={index}
+          />}
+          <div className="chatnames">
+            {show && num === index ?
+              <div>
+                <TextField
+                  required
+                  id="filled-required"
+                  label="Required"
+                  defaultValue={chats.title}
+                  variant="filled"
+                  onChange={handleText}
+                  style={{ marginRight: "35px", marginTop: "-5px" }}
+                />
+                <ButtonGroup
+                  disableElevation
+                  variant="contained"
+                  aria-label="Disabled elevation buttons"
+                >
+                  <Button onClick={() => handleYes(newTitle, chats._id)}>Yes</Button>
+                  <Button onClick={handleNo}>No</Button>
+                </ButtonGroup>
               </div>
-
-            </div>)}
-
-
-
-        </div>
-
-
-
-    
+              :
+              <ul>
+                <li className='title'>
+                  <h3 onClick={() => {
+                    setNum(index);
+                    setId(chats._id)
+                    setShowChat(true);
+                  }}>
+                    {chats.title}
+                  </h3>
+                </li>
+                <div className='box'>
+                  <FormControl >
+                    <Select
+                      labelId="demo-customized-select-label"
+                      id="demo-customized-select"
+                      input={<BootstrapInput />}
+                      key={chats._id}
+                    >
+                      <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
+                      <MenuItem value={20} onClick={() => deleteChat(chats._id)}>Delete</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </ul>}
+          </div>
+        </div>)}
+    </div>
   )
 }
 

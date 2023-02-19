@@ -20,7 +20,6 @@ mongoose
   })
   .then(() => console.log("DB connected!"))
   .catch(err => console.log(err))
-// app.use("/api", chat)
 
 app.post("/api/newChat", async (req, res) => {
   const chat = new newChat(req.body)
@@ -31,6 +30,7 @@ app.post("/api/newChat", async (req, res) => {
     res.status(500).json(err);
   }
 })
+
 app.post("/newMsg/:id", async (req, res) => {
   try {
     const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: req.body.messages, time: req.body.time, user: req.body.user } }, { new: true });
@@ -55,7 +55,10 @@ app.post("/chat/:id", async (req, res) => {
       presence_penalty: 0.0,
       stop: ["You:"],
     })
-    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: data.data.choices[0].text, time: req.body.time, user:req.body.user } }, { new: true });
+    if (data.data.choices[0].text === '\n\n') {
+      data.data.choices[0].text = "I don't know how to respond to what you said."
+    }
+    const updatedChat = await newChat.findByIdAndUpdate(req.params.id, { $push: { messages: data.data.choices[0].text, time: req.body.time, user: req.body.user } }, { new: true });
 
     res.status(200).send(updatedChat);
 

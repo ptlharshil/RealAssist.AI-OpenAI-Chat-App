@@ -1,4 +1,3 @@
-
 const mongoose=require("mongoose");
 
 const newChatSchema=new mongoose.Schema({
@@ -10,7 +9,7 @@ const newChatSchema=new mongoose.Schema({
     },
     user:[String],
     
-    messages:[String || Audio],
+    messages:[String],
     
     time:[String]
     

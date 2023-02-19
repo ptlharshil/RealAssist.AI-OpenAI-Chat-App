@@ -1,5 +1,4 @@
 import './App.css';
-import SideBar from "../src/Components/SideBar"
 import Navbar from "../src/Components/Navbar"
 import { useState, useEffect } from 'react'
 import * as React from 'react';
@@ -13,7 +12,10 @@ import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import axios from 'axios'
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import "../src/Components/SideBar.css"
+
 function App() {
 
   const [showChat, setShowChat] = useState(false)
@@ -23,7 +25,9 @@ function App() {
   const [num, setNum] = useState()
   const [show, setShow] = useState(false)
   const [newTitle, setNewTitle] = useState("New Chat")
+  const [titleError,setTitleError]=useState(false)
   const [id, setId] = useState()
+  
   useEffect(() => {
     getAllChats()
   }, [])
@@ -98,7 +102,15 @@ function App() {
 
   }
   const handleText = (e) => {
-    setNewTitle(e.target.value)
+    if(e.target.value.length>3)
+    {
+      setTitleError(false)
+      setNewTitle(e.target.value)
+
+    }else{
+      setTitleError(true)
+    }
+    
   }
   const deleteChat = async (index) => {
 
@@ -117,7 +129,7 @@ function App() {
       time: time.getHours() + ":" + time.getMinutes()
 
     }
-    
+
     try {
       const res = await axios.post("http://localhost:5000/api/newChat", chat)
       setChatDetails([...chatDetails, res.data])
@@ -129,112 +141,113 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar/>
+      <Navbar />
       {/* <SideBar/> */}
       <div className='heading'>
-          <h2 className='name'>Recent Chats</h2>
-          <button className='create' onClick={newChat}>New Chat</button>
-        </div>
-      
+        <h2 className='name'>Recent Chats</h2>
+        <button className='create' onClick={newChat}>New Chat</button>
+      </div>
+
       <div className='sidebar'>
-        
-
-
-        
-          {chatDetails.map((chats, index) =>
-            <div>
-              
-
-              <div className="chatnames">
-                {show && num === index ?
-                  <div>
-
-                    <TextField
-                      required
-                      id="filled-required"
-                      label="Required"
-                      defaultValue={chats.title}
-                      variant="filled"
-                      onChange={handleText}
-                      style={{ marginRight: "35px", marginTop: "-5px" }}
-                    />
-                    <ButtonGroup
-                      disableElevation
-                      variant="contained"
-                      aria-label="Disabled elevation buttons"
-                    >
-                      <Button onClick={() => handleYes(newTitle, chats._id)}>Yes</Button>
-                      <Button onClick={handleNo}>No</Button>
-                    </ButtonGroup>
 
 
 
-                  </div>
-                  :<div className='wrap'>
+
+        {chatDetails.map((chats, index) =>
+          <div>
+
+
+            <div className="chatnames">
+              {show && num === index ?
+                <div>
+
+                  <TextField
+                    required
+                    id="filled-required"
+                    label="Required"
+                    defaultValue={chats.title}
+                    variant="filled"
+                    onChange={handleText}
+                    style={{ marginRight: "35px", marginTop: "-5px" }}
+                  />
+                  <ButtonGroup
+                    disableElevation
+                    variant="contained"
+                    aria-label="Disabled elevation buttons"
+                  >
+                    <Button disabled={titleError} onClick={() => handleYes(newTitle, chats._id)}>Yes</Button>
+                    <Button onClick={handleNo}>No</Button>
+                  </ButtonGroup>
+
+
+
+                </div>
+                : <div className='wrap'>
                   {/* <ul>
 
                       <li > */}
-                        <h3 className='title' onClick={() => {
-                          setNum(index);setAddTime(index);
-                          setId(chats._id)
-                          setShowChat(true);
-                        }}>
-                          {chats.title}
-                        </h3>
+                  <h3 className='title' onClick={() => {
+                    setNum(index); setAddTime(index);
+                    setId(chats._id)
+                    setShowChat(true);
+                  }}>
+                    {chats.title}
+                  </h3>
 
-                      {/* </li>
+                  {/* </li>
                     </ul> */}
 
-                    <div className='box'>
-                      <FormControl >
-                        <Select
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          input={<BootstrapInput />}
-                          key={chats._id}
-                        >
+                  <div className='box'>
+                    <FormControl >
+                      <Select
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        input={<BootstrapInput />}
+                        key={chats._id}
+                      >
 
-                          <MenuItem value={10} onClick={() => handleChange(index)}>Edit</MenuItem>
-                          <MenuItem value={20} onClick={() => deleteChat(chats._id)}>Delete</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-
-                    
-
-
-                  </div>}
-
-              </div>
-
-            </div>)}
+                        <MenuItem value={10} onClick={() => handleChange(index)}><BorderColorIcon fontSize='small'/>&nbsp; Edit Title</MenuItem>
+                        <MenuItem value={20} onClick={() => deleteChat(chats._id)} style={{color:"red"}}><DeleteForeverIcon fontSize='medium' style={{color:
+                        "red"}}/> &nbsp; Delete Title</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
 
 
 
-        </div>
+
+                </div>}
+
+            </div>
+
+          </div>)}
 
 
 
-    
-    
-      
-        {showChat && addTime===num ? <Chat chatDetails={chatDetails} id={id}
-                setChatDetails={setChatDetails} chatIndex={addTime}
-              />:
-              <div className='intro'>
+      </div>
+
+
+
+
+
+
+      {showChat && addTime === num ? <Chat chatDetails={chatDetails} id={id}
+        setChatDetails={setChatDetails} chatIndex={addTime}
+      /> :
+        <div className='intro'>
           <h1>Hi, I am Real Assist AI</h1>
           <p>How can I help you? Click on new chat to start
-            <br/>
+            <br />
             or
-            <br/>
+            <br />
             Click on any of your existing chat to continue
           </p>
         </div>
-        }
-      
-    
-    
-        
+      }
+
+
+
+
     </div>
   );
 }

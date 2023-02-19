@@ -1,13 +1,20 @@
 .navbar{
     height: 10%;
     width: 100%;
-    /* border-bottom: 0.5px solid gray; */
     background-color: white;
-   
 }
 .header{
     float: left;
-    margin: 10px 10px 10px 50px
+    margin-top: -50px;
+}
+.header>h2{
+    margin-left: -30px;
+}
+.header > p{
+    color: gray;
+    margin-top: -20px;
+    margin-left: 30px;
+    font-size: x-small;
 }
 .desc{
     color: gray;
